@@ -1,0 +1,212 @@
+* {
+    box-sizing: border-box;
+}
+
+/*:root {*/
+/*    --bg           : #2D353B;*/
+/*    --bg-dim       : #232A2E;*/
+/*    --fg           : #D3C6AA;*/
+/**/
+/*    --red          : #E67E80;*/
+/*    --orange       : #FFBCB5;*/
+/*    --yellow       : #DBBC7F;*/
+/*    --green        : #A7C080;*/
+/*    --blue         : #7FBBB3;*/
+/*    --aqua         : #83C092;*/
+/*    --purple       : #D699B6;*/
+/**/
+/*    --bg-red       : #543A48;*/
+/*    --bg-orange    : #514045;*/
+/*    --bg-yellow    : #4D4C43;*/
+/*    --bg-green     : #425047;*/
+/*    --bg-blue      : #3A515D;*/
+/**/
+/*    --black        : #475258;*/
+/*    --gray         : #859289;*/
+/*    --white        : #D3C6AA;*/
+/**/
+/*    --resizer-size : 10px;*/
+/*}*/
+
+:root {
+    --bg         : #FFFFFF;
+    --bg-dim     : #F5F5F5;
+    --fg         : #495057;
+    --red        : #D32F2F;
+    --blue       : #0C2A77;
+    --light-blue : #2FA3E7;
+    --gray       : #F5F5F5;
+    --white      : #FFFFFF;
+}
+
+html,
+body {
+    margin                : 0;
+    background            : var(--bg-dim);
+    width                 : 100svw;
+    height                : 100svh;
+
+    display               : grid;
+    grid-template-columns : 300px auto;
+    grid-template-rows    : 70px auto;
+    grid-template-areas   : "header header"
+                            "nav main";
+}
+
+button {
+    background    : var(--blue);
+    border-radius : 3px;
+    border        : 1px solid transparent;
+    color         : var(--white);
+    cursor        : pointer;
+    padding       : 0 1rem;
+}
+
+header {
+    background : var(--blue);
+    grid-area  : header;
+}
+
+nav {
+    background : var(--blue);
+    grid-area  : nav;
+}
+
+main {
+    grid-area      : main;
+    padding        : 0.5rem;
+    display        : flex;
+    flex-direction : column;
+    gap            : 0.5rem;
+}
+
+main .toolbar {
+    display         : flex;
+    height          : 25px;
+}
+
+main .toolbar > div {
+    flex-grow : 1;
+}
+
+main .toolbar .toolbar__left,
+main .toolbar .toolbar__middle,
+main .toolbar .toolbar__right {
+    display : flex;
+}
+
+main .toolbar .toolbar__right {
+    justify-content: end;
+}
+
+main .toolbar .toolbar__left label {
+    background    : var(--blue);
+    border-radius : 3px;
+    color         : var(--white);
+    padding       : 2px 4px;
+}
+
+.grid {
+    display               : grid;
+    flex-grow             : 1;
+    gap                   : 0.5rem;
+    grid-template-columns : repeat(12, 1fr); /* NOTE: à gérer côté TS */
+    grid-auto-rows        : 150px;           /* NOTE: à gérer côté TS */
+}
+
+/* add --edit modifier when grid in edit mode */
+.grid__item {
+    background : var(--white);
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    display : grid;
+    grid-template-columns: 15px auto 15px;
+    grid-template-rows: 15px auto 15px;
+    grid-template-areas:
+        "top_left top top_right"
+        "left content right"
+        "bottom_left bottom bottom_right";
+}
+
+.to-insert {
+    border : 2px solid var(--light-blue);
+}
+.overlapping {
+    background : var(--red);
+}
+
+.grid__item__resizer:hover,
+.grid__item__content:hover {
+    background          : var(--light-blue);
+    transition-duration : 250ms;
+    user-select         : none;
+}
+
+/*
+* Valeurs des directions en Javascript/Typescript :
+* TOP          = 1
+* TOP_RIGHT    = 2
+* RIGHT        = 3
+* BOTTOM_RIGHT = 4
+* BOTTOM       = 5
+* BOTTOM_LEFT  = 6
+* LEFT         = 7
+* TOP_LEFT     = 8
+*/
+
+.grid__item__resizer[data-direction="8"]:hover,
+.grid__item__resizer[data-direction="4"]:hover {
+    cursor: nwse-resize;
+}
+
+.grid__item__resizer[data-direction="2"]:hover,
+.grid__item__resizer[data-direction="6"]:hover {
+    cursor: nesw-resize;
+}
+
+.grid__item__resizer[data-direction="1"]:hover,
+.grid__item__resizer[data-direction="5"]:hover {
+    cursor: ns-resize;
+}
+
+.grid__item__resizer[data-direction="3"]:hover,
+.grid__item__resizer[data-direction="7"]:hover {
+    cursor: ew-resize;
+}
+
+.grid__item__resizer[data-direction="1"] {
+    grid-area: top;
+}
+
+.grid__item__resizer[data-direction="3"] {
+    grid-area: right;
+}
+
+.grid__item__resizer[data-direction="5"] {
+    grid-area: bottom;
+}
+
+.grid__item__resizer[data-direction="7"] {
+    grid-area: left;
+}
+
+.grid__item__resizer[data-direction="8"] {
+    grid-area: top_left;
+}
+
+.grid__item__resizer[data-direction="2"] {
+    grid-area: top_right;
+}
+
+.grid__item__resizer[data-direction="6"] {
+    grid-area: bottom_left;
+}
+
+.grid__item__resizer[data-direction="4"] {
+    grid-area: bottom_right;
+}
+
+.grid__item__content {
+    grid-area   : content;
+    cursor      : all-scroll;
+}
+
